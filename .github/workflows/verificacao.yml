@@ -1,0 +1,24 @@
+name: Verificacao
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Verificar se existe README.md na raiz
+        run: |
+          if [ ! -f README.md ]; then
+            echo "README.md nao encontrado na raiz do repositorio"
+            exit 1
+          fi
+          echo "README.md encontrado"
+
+      - name: Escrever resumo da execucao
+        run: echo "RA 2026107649 - commit ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
